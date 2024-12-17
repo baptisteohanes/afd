@@ -16,15 +16,11 @@ $domains = Import-Csv -Path $csvFilePath
 $sw = [Diagnostics.Stopwatch]::StartNew()
 
 foreach ($domain in $domains) {
-    # Replace dots in the domain name with hyphens
+
+    # Generate a single object name per domain
     $sanitizedDomainName = $domain.DomainName -replace "\.", "-"
-    
-    # Generate a short unique identifier
     $uniqueId = [guid]::NewGuid().ToString().Substring(0, 4)
-
-    # Construct the custom domain name
     $customDomainName = $sanitizedDomainName + "-" + $uniqueId
-
     $hostName = $domain.DomainName
 
     # Add the custom domain to the Azure Front Door
