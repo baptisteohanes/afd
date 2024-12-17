@@ -6,7 +6,7 @@ for ($i = 1; $i -le 600; $i++) {
 }
 
 # Export the list to a CSV file
-$csvFilePath = "C:\domainList.csv"
+$csvFilePath = ".\domainList.csv"
 $domainList | Export-Csv -Path $csvFilePath -NoTypeInformation
 
 Write-Output "Domain list exported to $csvFilePath successfully."
