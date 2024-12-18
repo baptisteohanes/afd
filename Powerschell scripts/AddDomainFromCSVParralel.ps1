@@ -1,5 +1,5 @@
 $resourceGroupName = "rg-dmz-afd"
-$frontDoorName = "afd-dmz-we"
+$frontDoorName = "afd-dmz-axa"
 
 # Import the Azure module
 Import-Module Az.FrontDoor
