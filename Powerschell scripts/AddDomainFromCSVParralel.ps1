@@ -6,6 +6,7 @@ Import-Module Az.FrontDoor
 
 # Connect to Azure account
 #Connect-AzAccount
+#Select-AzSubscription -SubscriptionName "xxxxxxxxxxxxxxxx"
 
 # Define the CSV file path
 $csvFilePath = ".\domainList.csv"
@@ -17,7 +18,7 @@ $sw = [Diagnostics.Stopwatch]::StartNew()
 # Loop through each domain in the CSV and run in parallel
 $domains | ForEach-Object -Parallel {
     
-    # Get the domain name and replace . per -
+    # Create a unique custom domain name (the name of the object) 
     $sanitizedDomainName = $_.DomainName -replace "\.", "-"
     $uniqueId = [guid]::NewGuid().ToString().Substring(0, 4)
     $customDomainName = $sanitizedDomainName + "-" + $uniqueId
