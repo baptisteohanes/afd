@@ -9,10 +9,7 @@
         }
       },
       "customDomainName": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
+        "type": "string",
         "metadata": {
           "description": "The custom domain name to associate with your Front Door endpoint."
         }
@@ -22,13 +19,9 @@
         {
         "type": "Microsoft.Cdn/profiles/customDomains",
         "apiVersion": "2020-09-01",
-        "name": "[format('{0}/{1}', parameters('afdProfile'), concat(replace(parameters('customDomainName')[copyIndex()], '.', '-'), '-', uniqueString(resourceGroup().id))]",
-        "copy": {
-            "name": "DomainCopy",
-            "count": "[length(parameters('customDomainName'))]"
-            },
+        "name": "[format('{0}/{1}', parameters('afdProfile'), concat(replace(parameters('customDomainName'), '.', '-'), '-', uniqueString(resourceGroup().id)))]",
         "properties": {
-          "hostName": "[parameters('customDomainName')[copyIndex()]]",
+          "hostName": "[parameters('customDomainName')]",
           "tlsSettings": {
             "certificateType": "ManagedCertificate",
             "minimumTlsVersion": "TLS12"

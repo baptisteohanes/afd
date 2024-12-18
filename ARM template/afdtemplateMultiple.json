@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "afdProfile": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the Front Door profile in which you will create the endpoints"
+        }
+      },
+      "customDomainName": {
+        "type": "array",
+        "metadata": {
+          "description": "The custom domain name to associate with your Front Door endpoint."
+        }
+      }
+    },
+    "resources": [
+        {
+        "copy": {
+            "name": "DomainCopy",
+            "count": "[length(parameters('customDomainName'))]"
+            },
+        "type": "Microsoft.Cdn/profiles/customDomains",
+        "apiVersion": "2020-09-01",
+        "name": "[format('{0}/{1}', parameters('afdProfile'), concat(replace(parameters('customDomainName')[copyIndex()], '.', '-'), '-', uniqueString(resourceGroup().id)))]",
+        "properties": {
+          "hostName": "[parameters('customDomainName')[copyIndex()]]",
+          "tlsSettings": {
+            "certificateType": "ManagedCertificate",
+            "minimumTlsVersion": "TLS12"
+              }
+            }
+        }
+    ]
+  }
