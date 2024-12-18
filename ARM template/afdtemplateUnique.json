@@ -28,5 +28,11 @@
               }
             }
         }
-    ]
+    ],
+    "outputs": {
+      "customDomainValidationDnsTxtRecordName": {
+        "type": "string",
+        "value": "[format('_dnsauth.{0}', reference(resourceId('Microsoft.Cdn/profiles/customDomains', parameters('afdProfile'), concat(replace(parameters('customDomainName'), '.', '-'), '-', uniqueString(resourceGroup().id)))), '2020-09-01').hostName)]"
+      }
   }
+}
