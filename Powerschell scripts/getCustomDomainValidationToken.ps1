@@ -10,9 +10,15 @@ $customDomains = Get-AzFrontDoorCdnCustomDomain -ResourceGroupName $resourceGrou
 
 # List custom domains and validation tokens
 
+$results =@()
+
 foreach ($domain in $customDomains) {
     $domainName = $domain.HostName
-    $dnsAuthValue = ($domain.HostName -split ".")[0]
+    $dnsAuthValue = $domainName.split(".")[0]
+    $domainSuffix = $domainName.split(".",2)[1]
     $validationToken = $domain.ValidationPropertyValidationToken
-    Write-Output "Domain: $domainName, DNS Auth entry :  _dnsauth.$dnsauthvalue Validation Token: $validationToken"
+    Write-Output "Domain: $domainName, DNS Suffix : $domainSuffix, DNS Auth record :  _dnsauth.$dnsAuthValue Validation Token: $validationToken"
+    $results += [PSCustomObject]@{ DomainName = $domainName; DNSAuthRecord = "_dnsauth.$dnsAuthValue"; ValidationToken = $validationToken }
 }
+
+$results | Export-Csv -Path ".\customDomainValidationTokens.csv" -NoTypeInformation
